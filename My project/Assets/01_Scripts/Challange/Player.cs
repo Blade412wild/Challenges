@@ -6,35 +6,41 @@ public class Player : ActorBase
 {
 
     [SerializeField] private int PlayerHealth;
-    [SerializeField] private int PlayerSpeed;
+    [SerializeField] private float MaxSpeed = 3.0f;
+    [SerializeField] private float ForceStrenght = 800;
 
-    private GameObject playerBody;
+    private Rigidbody PlayerRb;
 
-    public Player(int _health, float _speed, GameObject _Body)
+    private void Start()
     {
-        PlayerHealth = _health;
-        Speed = _speed;
-        playerBody = _Body;
+        PlayerRb = GetComponent<Rigidbody>();
+        PlayerRb.drag = 2.0f;
+    }
 
-        Debug.Log("Player Health " + Health);
+    public override void Movement()
+    {
+        float _currentSpeed = PlayerRb.velocity.magnitude;
+        if (_currentSpeed <= MaxSpeed)
+        {
+            float _verticalForceControl = Input.GetAxis("Vertical");
+            float _horizontalForceControl = Input.GetAxis("Horizontal");
 
+            PlayerRb.AddForce(Vector3.forward * _verticalForceControl * ForceStrenght);
+            PlayerRb.AddForce(Vector3.right * _horizontalForceControl * ForceStrenght);
+
+        }
 
     }
 
-    public override void Movement(float _speed)
-    {
-        
-        base.Movement(_speed);
-    }
     public override void TakeDamage(int _damage)
     {
         base.TakeDamage(_damage);
         Debug.Log("Player Health " + Health);
     }
 
-    public override void DoDamage()
+    public override void DoDamage(GameObject _target)
     {
-        base.DoDamage();
+        base.DoDamage(_target);
     }
 
 }

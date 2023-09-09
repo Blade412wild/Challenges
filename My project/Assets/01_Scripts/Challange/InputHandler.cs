@@ -6,20 +6,15 @@ using UnityEngine.Animations;
 
 public class InputHandler : MonoBehaviour
 {
-    [SerializeField] private Rigidbody Player;
-    [SerializeField] private float ForceStrenght;
+    [SerializeField] private Player PlayerScript;
+
 
     // private float verticalForceControl;
     private float horizontalForceControl;
     private float verticalForceControl;
-    private float MaxSpeed;
-    private float currentSpeed;
-    float forceControl;
+
     // Start is called before the first frame update
-    void Start()
-    {
-        MaxSpeed = 3;
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -34,21 +29,17 @@ public class InputHandler : MonoBehaviour
                 Debug.Log("hit");
             }
         }
+
         verticalForceControl = Input.GetAxis("Vertical");
         horizontalForceControl = Input.GetAxis("Horizontal");
-
-        currentSpeed = Player.velocity.magnitude;
-        Debug.Log(currentSpeed);
 
     }
 
     private void FixedUpdate()
     {
-        if (currentSpeed <= MaxSpeed)
+        if (verticalForceControl < 0.0f || verticalForceControl > 0.0f || horizontalForceControl < 0.0 || horizontalForceControl > 0.0)
         {
-            Player.AddForce(Vector3.forward * verticalForceControl * ForceStrenght);
-            Player.AddForce(Vector3.right * horizontalForceControl * ForceStrenght);
-
+            PlayerScript.Movement();
         }
 
     }

@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerAsset;
 
     private Player player;
-    private Enemy enemy1;
-    private Enemy2 enemy2;
+    [SerializeField] private Enemy enemy1;
+    [SerializeField] private Enemy2 enemy2;
 
 
 
@@ -29,5 +29,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+    private void FixedUpdate()
+    {
+        enemy1.Movement();
+        enemy2.Movement();
     }
 }

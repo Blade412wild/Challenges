@@ -4,17 +4,57 @@ using UnityEngine;
 
 public class Enemy2 : ActorBase
 {
-    public Enemy2(int _health, float _speed)
-    {
-        Health = _health;
-        Speed = _speed;
+    [SerializeField] private int EnemyHealth;
+    [SerializeField] private int EnemyForceStrenght = 1200;
 
-        Debug.Log("enemy2 Health " + Health);
+    private Rigidbody enemyRb;
+    private int timer;
+    private int counter = 0;
+
+
+    private void Start()
+    {
+        enemyRb = GetComponent<Rigidbody>();
+    }
+
+    public override void Movement()
+    {
+        Timer();
+
+        if (counter == 1)
+        {
+            enemyRb.AddForce(Vector3.forward * EnemyForceStrenght);
+        }
+        if (counter == 2)
+        {
+            enemyRb.AddForce(Vector3.right * EnemyForceStrenght);
+        }
+        if (counter == 3)
+        {
+            enemyRb.AddForce(Vector3.back * EnemyForceStrenght);
+        }
+        if (counter == 4)
+        {
+            enemyRb.AddForce(Vector3.left * EnemyForceStrenght);
+        }
+
 
     }
-    public override void Movement(float _speed)
+
+    private void Timer()
     {
-        base.Movement(_speed);
+
+        timer = timer + 1;
+        if (timer == 50)
+        {
+            counter++;
+            timer = 0;
+        }
+        
+        if(counter == 5)
+        {
+            counter = 0;
+        }
     }
     public override void TakeDamage(int _damage)
     {
@@ -24,9 +64,9 @@ public class Enemy2 : ActorBase
 
     }
 
-    public override void DoDamage()
+    public override void DoDamage(GameObject _target)
     {
-
-        base.DoDamage();
+        base.DoDamage(_target);
     }
+
 }

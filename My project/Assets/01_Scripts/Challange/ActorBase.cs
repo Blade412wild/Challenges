@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngineInternal;
 
@@ -8,9 +9,9 @@ public abstract class ActorBase : MonoBehaviour
     public int Health { get; protected set; }
     public float Speed { get; protected set; }
 
-    public virtual void Movement(float _speed)
+    public virtual void Movement()
     {
-        Speed = _speed;
+        
     }
 
     public virtual void TakeDamage(int _damage)
@@ -23,7 +24,7 @@ public abstract class ActorBase : MonoBehaviour
         }
     }
 
-    public virtual void DoDamage()
+    public virtual void DoDamage(GameObject _target)
     {
 
     }
