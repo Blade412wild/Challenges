@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy2 : ActorBase
+public class Enemy2 : ActorBase , IDamageable
 {
     [SerializeField] private int EnemyHealth;
+    [SerializeField] private int DamageTaken;
     [SerializeField] private int EnemyForceStrenght = 1200;
 
     private Rigidbody enemyRb;
@@ -15,6 +16,11 @@ public class Enemy2 : ActorBase
     private void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
     }
 
     public override void Movement()
@@ -37,9 +43,9 @@ public class Enemy2 : ActorBase
         {
             enemyRb.AddForce(Vector3.left * EnemyForceStrenght);
         }
-
-
     }
+
+
 
     private void Timer()
     {
@@ -56,17 +62,28 @@ public class Enemy2 : ActorBase
             counter = 0;
         }
     }
-    public override void TakeDamage(int _damage)
+    public void TakeDamage(int _damage)
     {
-        _damage = _damage * 2;
-        base.TakeDamage(_damage);
-        Debug.Log("Enemy2 Health " + Health);
+        EnemyHealth -= _damage * DamageTaken;
+        Debug.Log(transform.name + " heath = " + EnemyHealth);
+
+        if (EnemyHealth <= 0)
+        {
+            Die();
+            Debug.Log("Dead");
+        }
 
     }
 
-    public override void DoDamage(GameObject _target)
+    public override void DoDamage(IDamageable _target)
     {
         base.DoDamage(_target);
     }
+
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
 
 }

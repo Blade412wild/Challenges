@@ -14,25 +14,4 @@ public class GameManager : MonoBehaviour
 
 
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //player = new Player(100, 5.0f, PlayerAsset);
-        //enemy1 = new Enemy(100, 2.0f);
-        //enemy2 = new Enemy2(200, 4.0f);
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    private void FixedUpdate()
-    {
-        enemy1.Movement();
-        enemy2.Movement();
-    }
 }

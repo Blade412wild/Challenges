@@ -14,18 +14,18 @@ public abstract class ActorBase : MonoBehaviour
         
     }
 
-    public virtual void TakeDamage(int _damage)
+    //public virtual void TakeDamage(int _damage)
+    //{
+    //    Health -= _damage;
+
+    //    if (Health < 0)
+    //    {
+    //        Debug.Log("Dead");
+    //    }
+    //}
+
+    public virtual void DoDamage(IDamageable _target)
     {
-        Health -= _damage;
-
-        if (Health < 0)
-        {
-            Debug.Log("Dead");
-        }
-    }
-
-    public virtual void DoDamage(GameObject _target)
-    {
-
+        _target.TakeDamage(1);
     }
 }

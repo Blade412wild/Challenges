@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
-public class Enemy : ActorBase
+public class Enemy : ActorBase, IDamageable
 {
     [SerializeField] private int EnemyHealth;
+    [SerializeField] private int DamageTaken;
     [SerializeField] private int EnemyForceStrenght = 1200;
     
     private Rigidbody enemyRb;
@@ -17,23 +18,27 @@ public class Enemy : ActorBase
     {
         enemyRb = GetComponent<Rigidbody>();
     }
+    private void FixedUpdate()
+    {
+        Movement();
+    }
     public override void Movement()
     {
         Timer();
 
-        if (counter == 1)
+        if (counter == 4)
         {
             enemyRb.AddForce(Vector3.forward * EnemyForceStrenght);
         }
-        if (counter == 2)
+        if (counter == 3)
         {
             enemyRb.AddForce(Vector3.right * EnemyForceStrenght);
         }
-        if (counter == 3)
+        if (counter == 2)
         {
             enemyRb.AddForce(Vector3.back * EnemyForceStrenght);
         }
-        if (counter == 4)
+        if (counter == 1)
         {
             enemyRb.AddForce(Vector3.left * EnemyForceStrenght);
         }
@@ -56,14 +61,25 @@ public class Enemy : ActorBase
             counter = 0;
         }
     }
-    public override void TakeDamage(int _damage)
+    public void TakeDamage(int _damage)
     {
-        base.TakeDamage(_damage);
+        EnemyHealth -= _damage * DamageTaken;
+        Debug.Log(transform.name + " heath = " + EnemyHealth);
+
+        if (EnemyHealth <= 0)
+        {
+            Die();
+        }
+
     }
 
-    public override void DoDamage(GameObject _target)
+    public override void DoDamage(IDamageable _target)
     {
         base.DoDamage(_target);
+    }
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 
 }

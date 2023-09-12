@@ -8,6 +8,8 @@ public class Player : ActorBase
     [SerializeField] private int PlayerHealth;
     [SerializeField] private float MaxSpeed = 3.0f;
     [SerializeField] private float ForceStrenght = 800;
+    [SerializeField] private int DamageTaken;
+
 
     private Rigidbody PlayerRb;
 
@@ -32,15 +34,29 @@ public class Player : ActorBase
 
     }
 
-    public override void TakeDamage(int _damage)
+    public void Jump()
     {
-        base.TakeDamage(_damage);
-        Debug.Log("Player Health " + Health);
+        PlayerRb.AddForce(Vector3.up * 10 * ForceStrenght);
     }
 
-    public override void DoDamage(GameObject _target)
+    //public override void TakeDamage(int _damage)
+    //{
+    //    base.TakeDamage(_damage);
+    //    Debug.Log("Player Health = " + Health);
+    //}
+
+    public override void DoDamage(IDamageable _target)
     {
         base.DoDamage(_target);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        IDamageable _enemy = collision.transform.gameObject.GetComponent<IDamageable>();
+        if (_enemy != null)
+        {
+            DoDamage(_enemy);
+        }
     }
 
 }

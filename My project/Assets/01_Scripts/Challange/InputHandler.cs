@@ -25,9 +25,19 @@ public class InputHandler : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 100))
             {
-                Debug.Log(hit.transform.name);
-                Debug.Log("hit");
+                IDamageable _damageableObject = hit.transform.gameObject.GetComponent<IDamageable>();
+
+                if (_damageableObject != null)
+                {
+                    _damageableObject.TakeDamage(1);
+
+                }
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerScript.Jump();
         }
 
         verticalForceControl = Input.GetAxis("Vertical");
